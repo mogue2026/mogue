@@ -24,18 +24,19 @@
         }
 
         /* Container keeping aspect ratio of room image */
-        .stage-container {
+        #app-container {
             position: relative;
+            aspect-ratio: 9 / 16;
             width: 100vw;
-            max-width: 600px;
-            /* High mobile compatibility */
-            height: 100vh;
-            max-height: 800px;
+            max-width: 56.25vh; /* 100vh * (9 / 16) */
+            height: auto;
+            max-height: 100vh;
             background-color: #050508;
             box-shadow: 0 0 50px rgba(0, 240, 255, 0.15);
             overflow: hidden;
             border-radius: 12px;
             border: 1px solid #1a1a2e;
+            margin: 0 auto;
         }
 
         /* Background video styling */
@@ -378,7 +379,7 @@
 
 <body>
 
-    <div class="stage-container">
+    <div id="app-container">
         <!-- Background Video -->
         <video class="background-video" autoplay loop muted playsinline>
             <source src="3271.mp4" type="video/mp4">
