@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOGUE OS | 深夜套房終端機</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #050508;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Container keeping aspect ratio of room image */
+        .stage-container {
+            position: relative;
+            width: 100vw;
+            max-width: 600px;
+            /* High mobile compatibility */
+            height: 100vh;
+            max-height: 800px;
+            background-color: #050508;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.15);
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid #1a1a2e;
+        }
+
+        /* Background video styling */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Ambient scanline overlay for Cyberpunk feel */
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.6;
+        }
+
+        /* Header Cyberpunk HUD */
+        .hud-header {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .hud-title {
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #f2c94c;
+            text-shadow: 0 0 10px rgba(242, 201, 76, 0.8);
+            background: rgba(10, 10, 15, 0.8);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(242, 201, 76, 0.4);
+        }
+
+        .hud-status {
+            font-size: 12px;
+            color: #00f0ff;
+            background: rgba(10, 10, 15, 0.8);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+        }
+
+        /* Interactive Hotspots */
+        .interactive-zone {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 15;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Hotspot 1: Microwave (Vibe Cooking) */
+        .zone-microwave {
+            bottom: 3%;
+            left: 0%;
+            width: 48%;
+            height: 32%;
+            border-radius: 12px;
+        }
+
+        /* Hotspot 2: Electric Box (Version Log) */
+        .zone-electric {
+            top: 36%;
+            left: 20.5%;
+            width: 13.5%;
+            height: 9%;
+            border-radius: 6px;
+        }
+
+        /* Hotspot 3: Wooden Door (Inspiration) */
+        .zone-door {
+            top: 34%;
+            left: 42%;
+            width: 24%;
+            height: 37%;
+            border-radius: 8px;
+        }
+
+        /* Hotspot 4: Exhaust Fan (Contact & Follow) */
+        .zone-switch {
+            top: 25.5%;
+            left: 54%;
+            width: 8.5%;
+            height: 8.5%;
+            border-radius: 6px;
+        }
+
+        /* Hover Glowing Neon Outline & Shadow Effects */
+        .interactive-zone:hover {
+            box-shadow: 0 0 20px #00f0ff, inset 0 0 15px #00f0ff;
+            border: 2px solid #00f0ff;
+            background: rgba(0, 240, 255, 0.15);
+            backdrop-filter: blur(1px);
+        }
+
+        .zone-electric:hover {
+            box-shadow: 0 0 20px #ff0055, inset 0 0 15px #ff0055;
+            border: 2px solid #ff0055;
+            background: rgba(255, 0, 85, 0.15);
+        }
+
+        .zone-door:hover {
+            box-shadow: 0 0 25px #f2c94c, inset 0 0 20px #f2c94c;
+            border: 2px solid #f2c94c;
+            background: rgba(242, 201, 76, 0.15);
+        }
+
+        .zone-switch:hover {
+            box-shadow: 0 0 20px #bd00ff, inset 0 0 15px #bd00ff;
+            border: 2px solid #bd00ff;
+            background: rgba(189, 0, 255, 0.15);
+        }
+
+        /* Floating Tooltip Label */
+        .floating-label {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(10px) scale(0.9);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+            z-index: 30;
+            font-size: 14px;
+        }
+
+        /* Label Colors */
+        .label-microwave {
+            color: #00f0ff;
+            background: rgba(5, 15, 25, 0.9);
+            border: 1px solid #00f0ff;
+            text-shadow: 0 0 8px #00f0ff;
+            top: 15%;
+        }
+
+        .label-electric {
+            color: #ff0055;
+            background: rgba(25, 5, 15, 0.9);
+            border: 1px solid #ff0055;
+            text-shadow: 0 0 8px #ff0055;
+            top: -50%;
+        }
+
+        .label-door {
+            color: #f2c94c;
+            background: rgba(25, 20, 5, 0.9);
+            border: 1px solid #f2c94c;
+            text-shadow: 0 0 8px #f2c94c;
+            top: 45%;
+        }
+
+        .label-switch {
+            color: #bd00ff;
+            background: rgba(20, 5, 25, 0.9);
+            border: 1px solid #bd00ff;
+            text-shadow: 0 0 8px #bd00ff;
+            top: -65%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px) scale(0.9);
+        }
+
+        /* Hover Triggering Label */
+        .interactive-zone:hover .floating-label {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .zone-switch:hover .label-switch {
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+
+        /* Modal Popup System */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 10, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #0d0f17;
+            border: 1px solid #00f0ff;
+            border-radius: 12px;
+            padding: 25px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .modal-title {
+            color: #f2c94c;
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 8px;
+        }
+
+        .modal-body {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stage-container">
+        <!-- Background Video -->
+        <video class="background-video" autoplay loop muted playsinline>
+            <source src="3271.mp4" type="video/mp4">
+        </video>
+        <div class="scanline"></div>
+
+        <!-- HUD Header -->
+        <div class="hud-header">
+            <div class="hud-title">墨古 v1.0</div>
+        </div>
+
+        <!-- Hotspot 1: Microwave -->
+        <div class="interactive-zone zone-microwave"
+            onclick="openModal('Vibe Cooking 微波科技料理', '這裡存放墨古最新的深夜微波降維食譜：<br><br>• 熱果乾優格碗 (20s)<br>• 貴妃醉雞 (6.5m)<br>• 小卷義大利麵 (28s完看爆款)<br><br><a href='#' style='color:#00f0ff'>👉 免費瀏覽完整食譜電子書</a>')">
+            <div class="floating-label label-microwave">⚡ VIBE COOKING</div>
+        </div>
+
+        <!-- Hotspot 2: Electric Box -->
+        <div class="interactive-zone zone-electric"
+            onclick="openModal('MOGUE System Changelog', '● [2026.03] v0.1 ALPHA INIT<br>&nbsp;&nbsp;- 墨古（Mogue）深夜套房系統正式初始化。<br>&nbsp;&nbsp;- 載入「外送員 ✕ 微波爐實驗室」。<br><br>● [2026.06] v0.5 MONETIZATION PATCH<br>&nbsp;&nbsp;- 解鎖商業合作。<br><br>● [2026.07] v0.8 AFFILIATE SHOPEE<br>&nbsp;&nbsp;- 啟動蝦皮分潤計畫。<br><br>● [2026.08] v0.9 E-BOOKS<br>&nbsp;&nbsp;- 撰寫vibe cooking。<br><br>● [2026.09] v1.0 MOGUE OS RELEASE<br>&nbsp;&nbsp;- 上線互動式深夜套房終端首頁。')">
+            <div class="floating-label label-electric">📜 版本記錄</div>
+        </div>
+
+        <!-- Hotspot 3: Wooden Door -->
+        <div class="interactive-zone zone-door"
+            onclick="openModal('找尋靈感 | MOGUE Selection', '探索深夜套房的廚具裝備與創作靈感源泉：<br><br>• 墨古嚴選微波煎烤盤<br>• 伊頓台灣小農果乾<br>• 樂米脆熟化米餅<br><br><a href='#' style='color:#f2c94c'>👉 查看蝦皮推薦清單</a>')">
+            <div class="floating-label label-door">🔑 找尋靈感</div>
+        </div>
+
+        <!-- Hotspot 4: Exhaust Fan -->
+        <div class="interactive-zone zone-switch"
+            onclick="openModal('聯絡與追蹤 | MOGUE Connect', '追蹤墨古的創作日常與最新動態：<br><br>• <a href='#' style='color:#bd00ff'>📷 Instagram: IG外送下班後</a><br>• <a href='#' style='color:#bd00ff'>✉️ 商業合作 / 聯絡信箱</a><br><br>歡迎點擊連結與我聯絡！')">
+            <div class="floating-label label-switch">🔮 聯絡與追蹤</div>
+        </div>
+
+        <!-- Modal Popup -->
+        <div class="modal-overlay" id="modal" onclick="closeModal()">
+            <div class="modal-box" id="modalBox" onclick="event.stopPropagation()">
+                <div class="modal-close" onclick="closeModal()">✕</div>
+                <div class="modal-title" id="modalTitle">Title</div>
+                <div class="modal-body" id="modalBody">Body content</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, body) {
+            document.getElementById('modalTitle').innerHTML = title;
+            document.getElementById('modalBody').innerHTML = body;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+    </script>
+
+</body>
+
+</html>
