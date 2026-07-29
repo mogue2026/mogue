@@ -107,6 +107,53 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Breathing Keyframes */
+        @keyframes pulse-microwave {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(0, 240, 255, 0.15), inset 0 0 6px rgba(0, 240, 255, 0.1);
+                border: 1px solid rgba(0, 240, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(0, 240, 255, 0.35), inset 0 0 12px rgba(0, 240, 255, 0.25);
+                border: 1.5px solid rgba(0, 240, 255, 0.4);
+            }
+        }
+
+        @keyframes pulse-electric {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(255, 0, 85, 0.15), inset 0 0 6px rgba(255, 0, 85, 0.1);
+                border: 1px solid rgba(255, 0, 85, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(255, 0, 85, 0.35), inset 0 0 12px rgba(255, 0, 85, 0.25);
+                border: 1.5px solid rgba(255, 0, 85, 0.4);
+            }
+        }
+
+        @keyframes pulse-door {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(242, 201, 76, 0.15), inset 0 0 6px rgba(242, 201, 76, 0.1);
+                border: 1px solid rgba(242, 201, 76, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 18px rgba(242, 201, 76, 0.35), inset 0 0 14px rgba(242, 201, 76, 0.25);
+                border: 1.5px solid rgba(242, 201, 76, 0.4);
+            }
+        }
+
+        @keyframes pulse-switch {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(189, 0, 255, 0.15), inset 0 0 6px rgba(189, 0, 255, 0.1);
+                border: 1px solid rgba(189, 0, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(189, 0, 255, 0.35), inset 0 0 12px rgba(189, 0, 255, 0.25);
+                border: 1.5px solid rgba(189, 0, 255, 0.4);
+            }
         }
 
         /* Hotspot 1: Microwave (Vibe Cooking) */
@@ -116,6 +163,7 @@
             width: 48%;
             height: 32%;
             border-radius: 12px;
+            animation: pulse-microwave 3s infinite ease-in-out;
         }
 
         /* Hotspot 2: Electric Box (Version Log) */
@@ -125,6 +173,7 @@
             width: 13.5%;
             height: 9%;
             border-radius: 6px;
+            animation: pulse-electric 3s infinite ease-in-out 0.7s;
         }
 
         /* Hotspot 3: Wooden Door (Inspiration) */
@@ -134,6 +183,7 @@
             width: 24%;
             height: 37%;
             border-radius: 8px;
+            animation: pulse-door 3s infinite ease-in-out 1.4s;
         }
 
         /* Hotspot 4: Exhaust Fan (Contact & Follow) */
@@ -143,32 +193,75 @@
             width: 8.5%;
             height: 8.5%;
             border-radius: 6px;
+            animation: pulse-switch 3s infinite ease-in-out 2.1s;
         }
 
-        /* Hover Glowing Neon Outline & Shadow Effects */
-        .interactive-zone:hover {
-            box-shadow: 0 0 20px #00f0ff, inset 0 0 15px #00f0ff;
-            border: 2px solid #00f0ff;
-            background: rgba(0, 240, 255, 0.15);
+        /* Active/Touch Instant Feedback (Light up 100%) */
+        .interactive-zone:active {
+            animation: none !important;
             backdrop-filter: blur(1px);
         }
-
-        .zone-electric:hover {
+        .zone-microwave:active {
+            box-shadow: 0 0 20px #00f0ff, inset 0 0 15px #00f0ff;
+            border: 2px solid #00f0ff;
+            background: rgba(0, 240, 255, 0.25);
+        }
+        .zone-electric:active {
             box-shadow: 0 0 20px #ff0055, inset 0 0 15px #ff0055;
             border: 2px solid #ff0055;
-            background: rgba(255, 0, 85, 0.15);
+            background: rgba(255, 0, 85, 0.25);
         }
-
-        .zone-door:hover {
+        .zone-door:active {
             box-shadow: 0 0 25px #f2c94c, inset 0 0 20px #f2c94c;
             border: 2px solid #f2c94c;
-            background: rgba(242, 201, 76, 0.15);
+            background: rgba(242, 201, 76, 0.25);
         }
-
-        .zone-switch:hover {
+        .zone-switch:active {
             box-shadow: 0 0 20px #bd00ff, inset 0 0 15px #bd00ff;
             border: 2px solid #bd00ff;
-            background: rgba(189, 0, 255, 0.15);
+            background: rgba(189, 0, 255, 0.25);
+        }
+
+        /* Hover Glowing Neon Outline & Shadow Effects for Desktop */
+        @media (hover: hover) {
+            .interactive-zone:hover {
+                animation: none !important;
+                box-shadow: 0 0 20px #00f0ff, inset 0 0 15px #00f0ff;
+                border: 2px solid #00f0ff;
+                background: rgba(0, 240, 255, 0.15);
+                backdrop-filter: blur(1px);
+            }
+
+            .zone-electric:hover {
+                animation: none !important;
+                box-shadow: 0 0 20px #ff0055, inset 0 0 15px #ff0055;
+                border: 2px solid #ff0055;
+                background: rgba(255, 0, 85, 0.15);
+            }
+
+            .zone-door:hover {
+                animation: none !important;
+                box-shadow: 0 0 25px #f2c94c, inset 0 0 20px #f2c94c;
+                border: 2px solid #f2c94c;
+                background: rgba(242, 201, 76, 0.15);
+            }
+
+            .zone-switch:hover {
+                animation: none !important;
+                box-shadow: 0 0 20px #bd00ff, inset 0 0 15px #bd00ff;
+                border: 2px solid #bd00ff;
+                background: rgba(189, 0, 255, 0.15);
+            }
+
+            /* Hover Triggering Label */
+            .interactive-zone:hover .floating-label {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            .zone-switch:hover .label-switch {
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
         }
 
         /* Floating Tooltip Label */
@@ -221,16 +314,6 @@
             top: -65%;
             left: 50%;
             transform: translateX(-50%) translateY(10px) scale(0.9);
-        }
-
-        /* Hover Triggering Label */
-        .interactive-zone:hover .floating-label {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .zone-switch:hover .label-switch {
-            transform: translateX(-50%) translateY(0) scale(1);
         }
 
         /* Modal Popup System */
