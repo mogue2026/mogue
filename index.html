@@ -431,14 +431,113 @@
             color: #ccc;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
-            cursor: grab; /* Desktop grab cursor */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            cursor: grab;
+            /* Desktop grab cursor */
         }
 
         /* Hide scrollbar for Chrome, Safari and Opera */
         .modal-body::-webkit-scrollbar {
             display: none;
+        }
+
+        /* 3D Card Flip for Hotspot 2 */
+        .card-container {
+            position: absolute;
+            width: 34.1%;
+            height: 15.1%;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card-container.is-flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 8px;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            -webkit-user-drag: none;
+            user-select: none;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: #141724;
+            border: 1px solid rgba(255, 0, 85, 0.5);
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.25);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #f2c94c;
+            /* Neon gold/yellow text */
+            text-shadow: 0 0 8px rgba(242, 201, 76, 0.6);
+            font-size: 13px;
+            font-weight: bold;
+            padding: 8px;
+            text-align: center;
+            line-height: 1.4;
+            user-select: none;
+        }
+
+        /* Gemini Star styling for Hotspot 2 */
+        .gemini-star {
+            position: absolute;
+            top: 98%;
+            left: 91.5%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            color: #f2c94c;
+            font-size: 24px;
+            text-shadow: 0 0 10px rgba(242, 201, 76, 0.9);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .gemini-star.is-orbiting {
+            animation: star-orbit 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes star-orbit {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg) translate(0px) rotate(0deg) scale(1);
+            }
+            50% {
+                /* Peak of the orbit: translate outwards, glow bright white/gold, scale up */
+                transform: translate(-50%, -50%) rotate(180deg) translate(22px) rotate(-180deg) scale(1.25);
+                color: #fff;
+                text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(242, 201, 76, 0.8);
+            }
+            100% {
+                /* Back to center */
+                transform: translate(-50%, -50%) rotate(360deg) translate(0px) rotate(-360deg) scale(1);
+                color: #f2c94c;
+                text-shadow: 0 0 10px rgba(242, 201, 76, 0.9);
+            }
         }
     </style>
 </head>
@@ -467,7 +566,7 @@
 
         <!-- Hotspot 2: Gear Mod -->
         <div class="interactive-zone zone-electric"
-            onclick="openModal('裝備模組 | MOGUE Gear', '<img src=\'2000.png\' style=\'width: 100%; height: auto; border-radius: 6px; margin-top: 5px; -webkit-user-drag: none; user-select: none;\' draggable=\'false\' alt=\'裝備模組\'>', '#ff0055')">
+            onclick="openModal('裝備模組', '<div style=\'position: relative; width: 100%; display: inline-block;\'><img src=\'2000.png\' style=\'width: 100%; height: auto; border-radius: 6px; display: block; -webkit-user-drag: none; user-select: none;\' draggable=\'false\' alt=\'裝備模組\'><div class=\'card-container\' onclick=\'window.open(&quot;https://s.shopee.tw/AKZPy8wusY&quot;, &quot;_blank&quot;)\' style=\'top: 57.0%; left: 11.4%;\'><div class=\'card-inner\'><div class=\'card-front\'><img src=\'蝦皮分潤/1.jpg\' draggable=\'false\'></div><div class=\'card-back\'>馬鈴薯麵</div></div></div><div class=\'card-container\' onclick=\'window.open(&quot;https://s.shopee.tw/1qarqYXLeb&quot;, &quot;_blank&quot;)\' style=\'top: 57.0%; left: 54.8%;\'><div class=\'card-inner\'><div class=\'card-front\'><img src=\'蝦皮分潤/2.jpg\' draggable=\'false\'></div><div class=\'card-back\'>金鳥-防蚊掛片</div></div></div><div class=\'card-container\' onclick=\'window.open(&quot;https://s.shopee.tw/AKZPy8wusY&quot;, &quot;_blank&quot;)\' style=\'top: 78.5%; left: 11.4%;\'><div class=\'card-inner\'><div class=\'card-front\'><img src=\'蝦皮分潤/3.jpg\' draggable=\'false\'></div><div class=\'card-back\'>馬鈴薯麵</div></div></div><div class=\'card-container\' onclick=\'window.open(&quot;https://s.shopee.tw/1qarqYXLeb&quot;, &quot;_blank&quot;)\' style=\'top: 78.5%; left: 54.8%;\'><div class=\'card-inner\'><div class=\'card-front\'><img src=\'蝦皮分潤/4.jpg\' draggable=\'false\'></div><div class=\'card-back\'>金鳥-防蚊掛片</div></div></div><div class=\'gemini-star\'>✦</div></div>', '#ff0055')">
             <div class="floating-label label-electric">⚔️ 裝備模組</div>
         </div>
 
@@ -544,6 +643,21 @@
             const walk = (y - startY) * 1.5; // Scroll speed multiplier
             modalBody.scrollTop = scrollTop - walk;
         });
+
+        // Toggle 3D card flip for Hotspot 2 every 5 seconds
+        setInterval(() => {
+            const cards = document.querySelectorAll('.card-container');
+            cards.forEach(card => {
+                card.classList.toggle('is-flipped');
+            });
+            const stars = document.querySelectorAll('.gemini-star');
+            stars.forEach(star => {
+                // Re-trigger the CSS keyframe animation by removing class, forcing reflow, and re-adding class
+                star.classList.remove('is-orbiting');
+                void star.offsetWidth; // Trigger reflow
+                star.classList.add('is-orbiting');
+            });
+        }, 5000);
     </script>
 
 </body>
