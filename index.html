@@ -399,8 +399,11 @@
             padding: 25px;
             width: 100%;
             max-width: 450px;
+            max-height: 80%;
             box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .modal-close {
@@ -410,6 +413,7 @@
             color: #aaa;
             cursor: pointer;
             font-size: 18px;
+            z-index: 55;
         }
 
         .modal-title {
@@ -418,12 +422,23 @@
             margin-bottom: 15px;
             border-bottom: 1px solid #222;
             padding-bottom: 8px;
+            flex-shrink: 0;
         }
 
         .modal-body {
             font-size: 14px;
             line-height: 1.6;
             color: #ccc;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            cursor: grab; /* Desktop grab cursor */
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .modal-body::-webkit-scrollbar {
+            display: none;
         }
     </style>
 </head>
@@ -440,7 +455,7 @@
         <!-- HUD Header -->
         <div class="hud-header">
             <div class="hud-title"
-                onclick="openModal('MOGUE System Changelog', '● [2026.03] v0.1 ALPHA INIT<br>&nbsp;&nbsp;- 墨古（Mogue）深夜套房系統正式初始化。<br>&nbsp;&nbsp;- 載入「外送員 ✕ 微波爐實驗室」。<br><br>● [2026.06] v0.5 MONETIZATION PATCH<br>&nbsp;&nbsp;- 解鎖商業合作。<br><br>● [2026.07] v0.8 AFFILIATE SHOPEE<br>&nbsp;&nbsp;- 啟動蝦皮分潤計畫。<br><br>● [2026.08] v0.9 E-BOOKS<br>&nbsp;&nbsp;- 撰寫vibe cooking。<br><br>● [2026.09] v1.0 MOGUE OS RELEASE<br>&nbsp;&nbsp;- 上線互動式深夜套房終端首頁。')">
+                onclick="openModal('系統修繕日誌', '● [2026.03] v0.1 ALPHA INIT<br>&nbsp;&nbsp;- 墨古（Mogue）深夜套房系統正式初始化。<br>&nbsp;&nbsp;- 載入「外送員 ✕ 微波爐實驗室」。<br><br>● [2026.06] v0.5 MONETIZATION PATCH<br>&nbsp;&nbsp;- 解鎖商業合作。<br><br>● [2026.07] v0.8 AFFILIATE SHOPEE<br>&nbsp;&nbsp;- 啟動蝦皮分潤計畫。<br><br>● [2026.08] v0.9 E-BOOKS<br>&nbsp;&nbsp;- 撰寫vibe cooking。<br><br>● [2026.09] v1.0 MOGUE OS RELEASE<br>&nbsp;&nbsp;- 上線互動式深夜套房終端首頁。')">
                 墨古 v1.0</div>
         </div>
 
@@ -452,7 +467,7 @@
 
         <!-- Hotspot 2: Gear Mod -->
         <div class="interactive-zone zone-electric"
-            onclick="openModal('裝備模組 | MOGUE Gear', '<img src=\'2000.png\' style=\'width: 100%; height: auto; border-radius: 6px; margin-top: 5px;\' alt=\'裝備模組\'>', '#ff0055')">
+            onclick="openModal('裝備模組 | MOGUE Gear', '<img src=\'2000.png\' style=\'width: 100%; height: auto; border-radius: 6px; margin-top: 5px; -webkit-user-drag: none; user-select: none;\' draggable=\'false\' alt=\'裝備模組\'>', '#ff0055')">
             <div class="floating-label label-electric">⚔️ 裝備模組</div>
         </div>
 
@@ -482,7 +497,7 @@
         function openModal(title, body, themeColor) {
             document.getElementById('modalTitle').innerHTML = title;
             document.getElementById('modalBody').innerHTML = body;
-            
+
             const modalBox = document.getElementById('modalBox');
             if (themeColor) {
                 modalBox.style.borderColor = themeColor;
@@ -491,13 +506,44 @@
                 modalBox.style.borderColor = '#00f0ff';
                 modalBox.style.boxShadow = '0 0 30px rgba(0, 240, 255, 0.3)';
             }
-            
+
             document.getElementById('modal').classList.add('active');
         }
 
         function closeModal() {
             document.getElementById('modal').classList.remove('active');
         }
+
+        // Enable drag-to-scroll on desktop for modalBody
+        const modalBody = document.getElementById('modalBody');
+        let isDown = false;
+        let startY;
+        let scrollTop;
+
+        modalBody.addEventListener('mousedown', (e) => {
+            isDown = true;
+            modalBody.style.cursor = 'grabbing';
+            startY = e.pageY - modalBody.offsetTop;
+            scrollTop = modalBody.scrollTop;
+        });
+
+        modalBody.addEventListener('mouseleave', () => {
+            isDown = false;
+            modalBody.style.cursor = 'grab';
+        });
+
+        modalBody.addEventListener('mouseup', () => {
+            isDown = false;
+            modalBody.style.cursor = 'grab';
+        });
+
+        modalBody.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const y = e.pageY - modalBody.offsetTop;
+            const walk = (y - startY) * 1.5; // Scroll speed multiplier
+            modalBody.scrollTop = scrollTop - walk;
+        });
     </script>
 
 </body>
