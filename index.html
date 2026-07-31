@@ -180,13 +180,13 @@
 
             0%,
             100% {
-                box-shadow: 0 0 8px rgba(242, 201, 76, 0.15), inset 0 0 6px rgba(242, 201, 76, 0.1);
-                border: 1px solid rgba(242, 201, 76, 0.2);
+                box-shadow: 0 0 8px rgba(189, 0, 255, 0.15), inset 0 0 6px rgba(189, 0, 255, 0.1);
+                border: 1px solid rgba(189, 0, 255, 0.2);
             }
 
             50% {
-                box-shadow: 0 0 18px rgba(242, 201, 76, 0.35), inset 0 0 14px rgba(242, 201, 76, 0.25);
-                border: 1.5px solid rgba(242, 201, 76, 0.4);
+                box-shadow: 0 0 18px rgba(189, 0, 255, 0.35), inset 0 0 14px rgba(189, 0, 255, 0.25);
+                border: 1.5px solid rgba(189, 0, 255, 0.4);
             }
         }
 
@@ -194,13 +194,13 @@
 
             0%,
             100% {
-                box-shadow: 0 0 8px rgba(189, 0, 255, 0.15), inset 0 0 6px rgba(189, 0, 255, 0.1);
-                border: 1px solid rgba(189, 0, 255, 0.2);
+                box-shadow: 0 0 8px rgba(224, 224, 224, 0.15), inset 0 0 6px rgba(224, 224, 224, 0.1);
+                border: 1px solid rgba(224, 224, 224, 0.2);
             }
 
             50% {
-                box-shadow: 0 0 16px rgba(189, 0, 255, 0.35), inset 0 0 12px rgba(189, 0, 255, 0.25);
-                border: 1.5px solid rgba(189, 0, 255, 0.4);
+                box-shadow: 0 0 16px rgba(224, 224, 224, 0.35), inset 0 0 12px rgba(224, 224, 224, 0.25);
+                border: 1.5px solid rgba(224, 224, 224, 0.4);
             }
         }
 
@@ -263,15 +263,15 @@
         }
 
         .zone-door:active {
-            box-shadow: 0 0 25px #f2c94c, inset 0 0 20px #f2c94c;
-            border: 2px solid #f2c94c;
-            background: rgba(242, 201, 76, 0.25);
+            box-shadow: 0 0 25px #bd00ff, inset 0 0 20px #bd00ff;
+            border: 2px solid #bd00ff;
+            background: rgba(189, 0, 255, 0.25);
         }
 
         .zone-switch:active {
-            box-shadow: 0 0 20px #bd00ff, inset 0 0 15px #bd00ff;
-            border: 2px solid #bd00ff;
-            background: rgba(189, 0, 255, 0.25);
+            box-shadow: 0 0 20px #e0e0e0, inset 0 0 15px #e0e0e0;
+            border: 2px solid #e0e0e0;
+            background: rgba(224, 224, 224, 0.25);
         }
 
         /* Hover Glowing Neon Outline & Shadow Effects for Desktop */
@@ -293,16 +293,16 @@
 
             .zone-door:hover {
                 animation: none !important;
-                box-shadow: 0 0 25px #f2c94c, inset 0 0 20px #f2c94c;
-                border: 2px solid #f2c94c;
-                background: rgba(242, 201, 76, 0.15);
+                box-shadow: 0 0 25px #bd00ff, inset 0 0 20px #bd00ff;
+                border: 2px solid #bd00ff;
+                background: rgba(189, 0, 255, 0.15);
             }
 
             .zone-switch:hover {
                 animation: none !important;
-                box-shadow: 0 0 20px #bd00ff, inset 0 0 15px #bd00ff;
-                border: 2px solid #bd00ff;
-                background: rgba(189, 0, 255, 0.15);
+                box-shadow: 0 0 20px #e0e0e0, inset 0 0 15px #e0e0e0;
+                border: 2px solid #e0e0e0;
+                background: rgba(224, 224, 224, 0.15);
             }
 
             /* Hover Triggering Label */
@@ -351,18 +351,18 @@
         }
 
         .label-door {
-            color: #f2c94c;
-            background: rgba(25, 20, 5, 0.9);
-            border: 1px solid #f2c94c;
-            text-shadow: 0 0 8px #f2c94c;
-            top: 45%;
-        }
-
-        .label-switch {
             color: #bd00ff;
             background: rgba(20, 5, 25, 0.9);
             border: 1px solid #bd00ff;
             text-shadow: 0 0 8px #bd00ff;
+            top: 45%;
+        }
+
+        .label-switch {
+            color: #e0e0e0;
+            background: rgba(15, 15, 15, 0.9);
+            border: 1px solid #e0e0e0;
+            text-shadow: 0 0 8px #e0e0e0;
             top: -65%;
             left: 50%;
             transform: translateX(-50%) translateY(10px) scale(0.9);
@@ -539,6 +539,165 @@
                 text-shadow: 0 0 10px rgba(242, 201, 76, 0.9);
             }
         }
+
+        /* Contact list layout */
+        .contact-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-top: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .contact-item:hover::before {
+            transform: translateX(100%);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Specific hover effects for platforms */
+        .contact-item-ig:hover {
+            background: linear-gradient(45deg, rgba(249, 206, 52, 0.05), rgba(238, 42, 123, 0.05), rgba(98, 40, 215, 0.05));
+            border-color: rgba(224, 53, 110, 0.5);
+            box-shadow: 0 0 15px rgba(224, 53, 110, 0.25);
+        }
+
+        .contact-item-email:hover {
+            background: rgba(234, 67, 53, 0.05);
+            border-color: rgba(234, 67, 53, 0.5);
+            box-shadow: 0 0 15px rgba(234, 67, 53, 0.25);
+        }
+
+        .contact-item-yt:hover {
+            background: rgba(255, 0, 0, 0.05);
+            border-color: rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.25);
+        }
+
+        .contact-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 6px;
+            padding: 6px;
+            margin-right: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover .contact-icon-wrapper {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        .contact-icon {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-label {
+            font-size: 11px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item-ig:hover .contact-label {
+            color: #e1306c;
+        }
+
+        .contact-item-email:hover .contact-label {
+            color: #ea4335;
+        }
+
+        .contact-item-yt:hover .contact-label {
+            color: #ff0000;
+        }
+
+        .contact-value {
+            font-size: 15px;
+            font-weight: 500;
+            color: #e0e0e0;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover .contact-value {
+            color: #fff;
+        }
+
+        .contact-arrow {
+            margin-left: auto;
+            color: #444;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover .contact-arrow {
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        /* Red vibration/shake animation for YouTube Under Construction */
+        @keyframes shake-red {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .contact-item-yt.under-construction {
+            animation: shake-red 0.4s ease-in-out;
+            background: rgba(255, 0, 0, 0.15) !important;
+            border-color: #ff0000 !important;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6) !important;
+        }
+
+        .contact-item-yt.under-construction .contact-label {
+            color: #ff0000 !important;
+        }
+
+        .contact-item-yt.under-construction .contact-value {
+            color: #ff3b30 !important;
+            text-shadow: 0 0 8px rgba(255, 0, 0, 0.8) !important;
+        }
     </style>
 </head>
 
@@ -578,7 +737,7 @@
 
         <!-- Hotspot 4: Exhaust Fan -->
         <div class="interactive-zone zone-switch"
-            onclick="openModal('聯絡與追蹤 | MOGUE Connect', '追蹤墨古的創作日常與最新動態：<br><br>• <a href='#' style='color:#bd00ff'>📷 Instagram: IG外送下班後</a><br>• <a href='#' style='color:#bd00ff'>✉️ 商業合作 / 聯絡信箱</a><br><br>歡迎點擊連結與我聯絡！')">
+            onclick="openContactModal()">
             <div class="floating-label label-switch">🔮 聯絡與追蹤</div>
         </div>
 
@@ -611,6 +770,104 @@
 
         function closeModal() {
             document.getElementById('modal').classList.remove('active');
+        }
+
+        function openContactModal() {
+            const bodyHtml = `
+                <div class="contact-container">
+                    <a href="https://www.instagram.com/mogue_2026/" target="_blank" class="contact-item contact-item-ig">
+                        <div class="contact-icon-wrapper">
+                            <img src="社群圖示/Instagram.png" class="contact-icon" alt="Instagram">
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">Instagram</span>
+                            <span class="contact-value">@mogue_2026</span>
+                        </div>
+                        <div class="contact-arrow">→</div>
+                    </a>
+                    <a href="mailto:mogue.sales@gmail.com" class="contact-item contact-item-email" onclick="handleGmailClick(event, this)">
+                        <div class="contact-icon-wrapper">
+                            <img src="社群圖示/Gmail.png" class="contact-icon" alt="Gmail">
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">Gmail</span>
+                            <span class="contact-value">mogue.sales@gmail.com</span>
+                        </div>
+                        <div class="contact-arrow">→</div>
+                    </a>
+                    <a href="javascript:void(0)" class="contact-item contact-item-yt" onclick="handleYtClick(event, this)">
+                        <div class="contact-icon-wrapper">
+                            <img src="社群圖示/youtube.png" class="contact-icon" alt="YouTube">
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">YouTube</span>
+                            <span class="contact-value">墨古</span>
+                        </div>
+                        <div class="contact-arrow">→</div>
+                    </a>
+                </div>
+            `;
+            openModal('聯絡與追蹤 | MOGUE Connect', bodyHtml, '#e0e0e0');
+        }
+
+        function handleGmailClick(event, element) {
+            event.preventDefault();
+            const email = 'mogue.sales@gmail.com';
+            
+            // 1. Trigger the mail client immediately as a synchronous direct user gesture
+            window.location.href = 'mailto:' + email;
+
+            function showFeedback() {
+                const valueSpan = element.querySelector('.contact-value');
+                const originalText = valueSpan.textContent;
+                valueSpan.textContent = '已複製信箱，開啟信箱中... ✉️';
+                setTimeout(() => {
+                    valueSpan.textContent = originalText;
+                }, 1800);
+            }
+
+            // 2. Perform the clipboard copying asynchronously
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email)
+                    .then(() => {
+                        showFeedback();
+                    })
+                    .catch(err => {
+                        console.error('Clipboard copy failed: ', err);
+                    });
+            } else {
+                // Fallback copy using textarea
+                try {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = email;
+                    textArea.style.position = 'fixed';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    const successful = document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    if (successful) {
+                        showFeedback();
+                    }
+                } catch (err) {
+                    console.error('Fallback copy failed: ', err);
+                }
+            }
+        }
+
+        function handleYtClick(event, element) {
+            event.preventDefault();
+            if (element.classList.contains('under-construction')) return;
+            
+            element.classList.add('under-construction');
+            const valueSpan = element.querySelector('.contact-value');
+            const originalText = valueSpan.textContent;
+            valueSpan.textContent = '施工中... 🛠️';
+            
+            setTimeout(() => {
+                element.classList.remove('under-construction');
+                valueSpan.textContent = originalText;
+            }, 1200);
         }
 
         // Enable drag-to-scroll on desktop for modalBody
