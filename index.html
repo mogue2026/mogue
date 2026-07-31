@@ -814,8 +814,17 @@
             event.preventDefault();
             const email = 'mogue.sales@gmail.com';
             
-            // 1. Trigger the mail client immediately as a synchronous direct user gesture
-            window.location.href = 'mailto:' + email;
+            // Detect if the user is on a mobile device or tablet
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            // 1. Trigger the appropriate redirection synchronously as a direct user gesture
+            if (isMobile) {
+                // Mobile: Open default mail app via mailto
+                window.location.href = 'mailto:' + email;
+            } else {
+                // Desktop: Open Gmail webmail composer in a new tab
+                window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + email, '_blank');
+            }
 
             function showFeedback() {
                 const valueSpan = element.querySelector('.contact-value');
