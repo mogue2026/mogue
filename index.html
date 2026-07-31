@@ -88,6 +88,40 @@
             padding: 6px 12px;
             border-radius: 4px;
             border: 1px solid rgba(242, 201, 76, 0.4);
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse-hud-yellow 3s infinite ease-in-out;
+        }
+
+        .hud-title:active {
+            animation: none !important;
+            box-shadow: 0 0 25px #f2c94c, inset 0 0 20px #f2c94c;
+            border: 2px solid #f2c94c;
+            background: rgba(242, 201, 76, 0.25);
+        }
+
+        @keyframes pulse-hud-yellow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(242, 201, 76, 0.15), inset 0 0 6px rgba(242, 201, 76, 0.1);
+                border: 1px solid rgba(242, 201, 76, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 18px rgba(242, 201, 76, 0.35), inset 0 0 14px rgba(242, 201, 76, 0.25);
+                border: 1.5px solid rgba(242, 201, 76, 0.4);
+            }
+        }
+
+        @media (hover: hover) {
+            .hud-title:hover {
+                animation: none !important;
+                box-shadow: 0 0 25px #f2c94c, inset 0 0 20px #f2c94c;
+                border: 2px solid #f2c94c;
+                background: rgba(242, 201, 76, 0.15);
+            }
         }
 
         .hud-status {
@@ -405,7 +439,9 @@
 
         <!-- HUD Header -->
         <div class="hud-header">
-            <div class="hud-title">墨古 v1.0</div>
+            <div class="hud-title"
+                onclick="openModal('MOGUE System Changelog', '● [2026.03] v0.1 ALPHA INIT<br>&nbsp;&nbsp;- 墨古（Mogue）深夜套房系統正式初始化。<br>&nbsp;&nbsp;- 載入「外送員 ✕ 微波爐實驗室」。<br><br>● [2026.06] v0.5 MONETIZATION PATCH<br>&nbsp;&nbsp;- 解鎖商業合作。<br><br>● [2026.07] v0.8 AFFILIATE SHOPEE<br>&nbsp;&nbsp;- 啟動蝦皮分潤計畫。<br><br>● [2026.08] v0.9 E-BOOKS<br>&nbsp;&nbsp;- 撰寫vibe cooking。<br><br>● [2026.09] v1.0 MOGUE OS RELEASE<br>&nbsp;&nbsp;- 上線互動式深夜套房終端首頁。')">
+                墨古 v1.0</div>
         </div>
 
         <!-- Hotspot 1: Microwave -->
@@ -414,10 +450,10 @@
             <div class="floating-label label-microwave">⚡ VIBE COOKING</div>
         </div>
 
-        <!-- Hotspot 2: Electric Box -->
+        <!-- Hotspot 2: Gear Mod -->
         <div class="interactive-zone zone-electric"
-            onclick="openModal('MOGUE System Changelog', '● [2026.03] v0.1 ALPHA INIT<br>&nbsp;&nbsp;- 墨古（Mogue）深夜套房系統正式初始化。<br>&nbsp;&nbsp;- 載入「外送員 ✕ 微波爐實驗室」。<br><br>● [2026.06] v0.5 MONETIZATION PATCH<br>&nbsp;&nbsp;- 解鎖商業合作。<br><br>● [2026.07] v0.8 AFFILIATE SHOPEE<br>&nbsp;&nbsp;- 啟動蝦皮分潤計畫。<br><br>● [2026.08] v0.9 E-BOOKS<br>&nbsp;&nbsp;- 撰寫vibe cooking。<br><br>● [2026.09] v1.0 MOGUE OS RELEASE<br>&nbsp;&nbsp;- 上線互動式深夜套房終端首頁。')">
-            <div class="floating-label label-electric">📜 版本記錄</div>
+            onclick="openModal('裝備模組 | MOGUE Gear', '<img src=\'2000.png\' style=\'width: 100%; height: auto; border-radius: 6px; margin-top: 5px;\' alt=\'裝備模組\'>', '#ff0055')">
+            <div class="floating-label label-electric">⚔️ 裝備模組</div>
         </div>
 
         <!-- Hotspot 3: Wooden Door -->
@@ -443,9 +479,19 @@
     </div>
 
     <script>
-        function openModal(title, body) {
+        function openModal(title, body, themeColor) {
             document.getElementById('modalTitle').innerHTML = title;
             document.getElementById('modalBody').innerHTML = body;
+            
+            const modalBox = document.getElementById('modalBox');
+            if (themeColor) {
+                modalBox.style.borderColor = themeColor;
+                modalBox.style.boxShadow = `0 0 30px ${themeColor}4d`; // 4d is ~30% opacity in hex
+            } else {
+                modalBox.style.borderColor = '#00f0ff';
+                modalBox.style.boxShadow = '0 0 30px rgba(0, 240, 255, 0.3)';
+            }
+            
             document.getElementById('modal').classList.add('active');
         }
 
