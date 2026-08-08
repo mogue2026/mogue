@@ -776,6 +776,84 @@
             color: #ff3b30 !important;
             text-shadow: 0 0 8px rgba(255, 0, 0, 0.8) !important;
         }
+
+        /* Purple vibration/shake animation for Door Locked */
+        .zone-door.locked {
+            animation: shake-purple 0.4s ease-in-out !important;
+            background: rgba(189, 0, 255, 0.25) !important;
+            border: 2px solid #bd00ff !important;
+            box-shadow: 0 0 25px rgba(189, 0, 255, 0.8), inset 0 0 20px rgba(189, 0, 255, 0.8) !important;
+        }
+
+        @keyframes shake-purple {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-6px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(6px);
+            }
+        }
+
+        /* Cyan vibration/shake animation for Microwave Unplugged */
+        .zone-microwave.unplugged {
+            animation: shake-cyan 0.4s ease-in-out !important;
+            background: rgba(0, 240, 255, 0.25) !important;
+            border: 2px solid #00f0ff !important;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.8), inset 0 0 20px rgba(0, 240, 255, 0.8) !important;
+        }
+
+        @keyframes shake-cyan {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-6px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(6px);
+            }
+        }
+
+        /* Cyberpunk Toast Message */
+        .toast-message {
+            position: absolute;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(20, 5, 25, 0.95);
+            border: 1px solid #bd00ff;
+            color: #bd00ff;
+            text-shadow: 0 0 8px rgba(189, 0, 255, 0.6);
+            box-shadow: 0 0 15px rgba(189, 0, 255, 0.4), inset 0 0 8px rgba(189, 0, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 45;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+        }
+
+        .toast-message.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
     </style>
 </head>
 
@@ -796,8 +874,8 @@
         </div>
 
         <!-- Hotspot 1: Microwave -->
-        <div class="interactive-zone zone-microwave"
-            onclick="openModal('Vibe Cooking 微波科技料理', '這裡存放墨古最新的深夜微波降維食譜：<br><br>• 熱果乾優格碗 (20s)<br>• 貴妃醉雞 (6.5m)<br>• 小卷義大利麵 (28s完看爆款)<br><br><a href='#' style='color:#00f0ff'>👉 免費瀏覽完整食譜電子書</a>')">
+        <!-- To unlock, restore: onclick="openModal('Vibe Cooking 微波科技料理', '這裡存放墨古最新的深夜微波降維食譜：<br><br>• 熱果乾優格碗 (20s)<br>• 貴妃醉雞 (6.5m)<br>• 小卷義大利麵 (28s完看爆款)<br><br><a href=\'#\' style=\'color:#00f0ff\'>👉 免費瀏覽完整食譜電子書</a>')" -->
+        <div class="interactive-zone zone-microwave" onclick="handleMicrowaveClick(event, this)">
             <div class="floating-label label-microwave">⚡ VIBE COOKING</div>
         </div>
 
@@ -808,8 +886,8 @@
         </div>
 
         <!-- Hotspot 3: Wooden Door -->
-        <div class="interactive-zone zone-door"
-            onclick="openModal('找尋靈感 | MOGUE Selection', '探索深夜套房的廚具裝備與創作靈感源泉：<br><br>• 墨古嚴選微波煎烤盤<br>• 伊頓台灣小農果乾<br>• 樂米脆熟化米餅<br><br><a href='#' style='color:#f2c94c'>👉 查看蝦皮推薦清單</a>')">
+        <!-- To unlock, restore: onclick="openModal('找尋靈感 | MOGUE Selection', '探索深夜套房的廚具裝備與創作靈感源泉：<br><br>• 墨古嚴選微波煎烤盤<br>• 伊頓台灣小農果乾<br>• 樂米脆熟化米餅<br><br><a href=\'#\' style=\'color:#f2c94c\'>👉 查看蝦皮推薦清單</a>')" -->
+        <div class="interactive-zone zone-door" onclick="handleDoorClick(event, this)">
             <div class="floating-label label-door">🔑 找尋靈感</div>
         </div>
 
@@ -822,6 +900,9 @@
         <div class="homepage-star gemini-star">
             <div class="homepage-star-inner">✦</div>
         </div>
+
+        <!-- Toast Notification -->
+        <div id="toast-message" class="toast-message">🔒 尚未解鎖，敬請期待</div>
 
         <!-- Modal Popup -->
         <div class="modal-overlay" id="modal" onclick="closeModal()">
@@ -1006,6 +1087,73 @@
                 star.classList.add('is-orbiting');
             });
         }, 5000);
+
+        let toastTimeout;
+
+        function showToast(message, borderThemeColor) {
+            const toast = document.getElementById('toast-message');
+            toast.textContent = message;
+            if (borderThemeColor) {
+                toast.style.borderColor = borderThemeColor;
+                toast.style.color = borderThemeColor;
+                toast.style.boxShadow = `0 0 15px ${borderThemeColor}66, inset 0 0 8px ${borderThemeColor}33`;
+                toast.style.textShadow = `0 0 8px ${borderThemeColor}99`;
+            } else {
+                toast.style.borderColor = '#bd00ff';
+                toast.style.color = '#bd00ff';
+                toast.style.boxShadow = '0 0 15px rgba(189, 0, 255, 0.4), inset 0 0 8px rgba(189, 0, 255, 0.2)';
+                toast.style.textShadow = '0 0 8px rgba(189, 0, 255, 0.6)';
+            }
+            toast.classList.add('show');
+
+            if (toastTimeout) {
+                clearTimeout(toastTimeout);
+            }
+
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1500);
+        }
+
+        function handleDoorClick(event, element) {
+            event.preventDefault();
+            if (element.classList.contains('locked')) return;
+
+            // Physical device vibration (for mobile)
+            if (navigator.vibrate) {
+                navigator.vibrate(100);
+            }
+
+            // Visual shake
+            element.classList.add('locked');
+
+            // Show Toast
+            showToast('🔒 尚未解鎖，敬請期待', '#bd00ff');
+
+            setTimeout(() => {
+                element.classList.remove('locked');
+            }, 400);
+        }
+
+        function handleMicrowaveClick(event, element) {
+            event.preventDefault();
+            if (element.classList.contains('unplugged')) return;
+
+            // Physical device vibration (for mobile)
+            if (navigator.vibrate) {
+                navigator.vibrate(100);
+            }
+
+            // Visual shake
+            element.classList.add('unplugged');
+
+            // Show Toast
+            showToast('🔌 還沒插電', '#00f0ff');
+
+            setTimeout(() => {
+                element.classList.remove('unplugged');
+            }, 400);
+        }
     </script>
 
 </body>
