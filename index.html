@@ -204,6 +204,34 @@
             }
         }
 
+        @keyframes pulse-label {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.9);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pulse-label-switch {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(10px) scale(0.9);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
         /* Hotspot 1: Microwave (Vibe Cooking) */
         .zone-microwave {
             bottom: 0%;
@@ -274,6 +302,18 @@
             background: rgba(224, 224, 224, 0.25);
         }
 
+        .interactive-zone:active .floating-label {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+        }
+
+        .zone-switch:active .label-switch {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: translateX(-50%) translateY(0) scale(1) !important;
+        }
+
         /* Hover Glowing Neon Outline & Shadow Effects for Desktop */
         @media (hover: hover) {
             .interactive-zone:hover {
@@ -307,12 +347,15 @@
 
             /* Hover Triggering Label */
             .interactive-zone:hover .floating-label {
-                opacity: 1;
-                transform: translateY(0) scale(1);
+                animation: none !important;
+                opacity: 1 !important;
+                transform: translateY(0) scale(1) !important;
             }
 
             .zone-switch:hover .label-switch {
-                transform: translateX(-50%) translateY(0) scale(1);
+                animation: none !important;
+                opacity: 1 !important;
+                transform: translateX(-50%) translateY(0) scale(1) !important;
             }
         }
 
@@ -322,7 +365,7 @@
             opacity: 0;
             transform: translateY(10px) scale(0.9);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
+            pointer-events: auto;
             white-space: nowrap;
             font-weight: bold;
             letter-spacing: 1.5px;
@@ -340,6 +383,7 @@
             border: 1px solid #00f0ff;
             text-shadow: 0 0 8px #00f0ff;
             top: 15%;
+            animation: pulse-label 3s infinite ease-in-out;
         }
 
         .label-electric {
@@ -348,6 +392,7 @@
             border: 1px solid #ff0055;
             text-shadow: 0 0 8px #ff0055;
             top: -50%;
+            animation: pulse-label 3s infinite ease-in-out 0.7s;
         }
 
         .label-door {
@@ -356,6 +401,7 @@
             border: 1px solid #bd00ff;
             text-shadow: 0 0 8px #bd00ff;
             top: 45%;
+            animation: pulse-label 3s infinite ease-in-out 1.4s;
         }
 
         .label-switch {
@@ -366,6 +412,7 @@
             top: -65%;
             left: 50%;
             transform: translateX(-50%) translateY(10px) scale(0.9);
+            animation: pulse-label-switch 3s infinite ease-in-out 2.1s;
         }
 
         /* Modal Popup System */
@@ -786,6 +833,7 @@
         }
 
         @keyframes shake-purple {
+
             0%,
             100% {
                 transform: translateX(0);
@@ -811,6 +859,7 @@
         }
 
         @keyframes shake-cyan {
+
             0%,
             100% {
                 transform: translateX(0);
@@ -854,6 +903,131 @@
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
+
+        /* Group Buying Carousel */
+        .carousel-container {
+            position: absolute;
+            top: 17.5%;
+            left: 11.2%;
+            width: 78.1%;
+            height: 17%;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .img-1 {
+            animation: carousel-fade-1 6s infinite ease-in-out;
+        }
+
+        .img-2 {
+            animation: carousel-fade-2 6s infinite ease-in-out;
+        }
+
+        @keyframes carousel-fade-1 {
+
+            0%,
+            45% {
+                opacity: 1;
+                z-index: 2;
+            }
+
+            50%,
+            95% {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            100% {
+                opacity: 1;
+                z-index: 2;
+            }
+        }
+
+        @keyframes carousel-fade-2 {
+
+            0%,
+            45% {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            50%,
+            95% {
+                opacity: 1;
+                z-index: 2;
+            }
+
+            100% {
+                opacity: 0;
+                z-index: 1;
+            }
+        }
+
+        /* Name and Time Fields for Gear Mod */
+        .gear-name-field {
+            position: absolute;
+            top: 31.0%;
+            left: 35.5%;
+            width: 34.1%;
+            height: 13.5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px #ff0055;
+            letter-spacing: 2px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .gear-time-field {
+            position: absolute;
+            top: 35.0%;
+            left: 33.5%;
+            width: 34.1%;
+            height: 14.5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            font-weight: bold;
+            color: #ff0055;
+            text-shadow: 0 0 10px rgba(255, 0, 85, 0.8);
+            letter-spacing: 1px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .blinking-text {
+            animation: blink-red-neon 1.5s infinite ease-in-out;
+        }
+
+        @keyframes blink-red-neon {
+
+            0%,
+            100% {
+                opacity: 0.25;
+                text-shadow: 0 0 4px rgba(255, 0, 85, 0.4);
+            }
+
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 12px rgba(255, 0, 85, 0.9), 0 0 20px rgba(255, 0, 85, 0.6);
+            }
+        }
     </style>
 </head>
 
@@ -880,8 +1054,7 @@
         </div>
 
         <!-- Hotspot 2: Gear Mod -->
-        <div class="interactive-zone zone-electric"
-            onclick="openModal('裝備模組', '<div style=\'position: relative; width: 100%; display: inline-block;\'><img src=\'2000.png\' style=\'width: 100%; height: auto; border-radius: 6px; display: block; -webkit-user-drag: none; user-select: none;\' draggable=\'false\' alt=\'裝備模組\'><div class=\'card-container\' onclick=\'window.open(&quot;https://s.shopee.tw/AKZPy8wusY&quot;, &quot;_blank&quot;)\' style=\'top: 57.0%; left: 11.4%;\'><div class=\'card-inner\'><div class=\'card-front\'><img src=\'Shopee/1.jpg\' draggable=\'false\'></div><div class=\'card-back\'>馬鈴薯麵</div></div></div><div class=\'card-container\' onclick=\'window.open(&quot;https://s.shopee.tw/1qarqYXLeb&quot;, &quot;_blank&quot;)\' style=\'top: 57.0%; left: 54.8%;\'><div class=\'card-inner\'><div class=\'card-front\'><img src=\'Shopee/2.jpg\' draggable=\'false\'></div><div class=\'card-back\'>金鳥-防蚊掛片</div></div></div><div class=\'card-container\' onclick=\'window.open(&quot;https://s.shopee.tw/AKZPy8wusY&quot;, &quot;_blank&quot;)\' style=\'top: 78.5%; left: 11.4%;\'><div class=\'card-inner\'><div class=\'card-front\'><img src=\'Shopee/3.jpg\' draggable=\'false\'></div><div class=\'card-back\'>馬鈴薯麵</div></div></div><div class=\'card-container\' onclick=\'window.open(&quot;https://s.shopee.tw/1qarqYXLeb&quot;, &quot;_blank&quot;)\' style=\'top: 78.5%; left: 54.8%;\'><div class=\'card-inner\'><div class=\'card-front\'><img src=\'Shopee/4.jpg\' draggable=\'false\'></div><div class=\'card-back\'>金鳥-防蚊掛片</div></div></div><div class=\'gemini-star\'>✦</div></div>', '#ff0055')">
+        <div class="interactive-zone zone-electric" onclick="openGearModal()">
             <div class="floating-label label-electric">⚔️ 裝備模組</div>
         </div>
 
@@ -933,6 +1106,54 @@
 
         function closeModal() {
             document.getElementById('modal').classList.remove('active');
+        }
+
+        function openGearModal() {
+            const bodyHtml = `
+                <div style="position: relative; width: 100%; display: inline-block;">
+                    <img src="2000.png" style="width: 100%; height: auto; border-radius: 6px; display: block; -webkit-user-drag: none; user-select: none;" draggable="false" alt="裝備模組">
+                    
+                    <!-- Group Buying Carousel -->
+                    <div class="carousel-container" onclick="window.open('https://gbf.tw/rfphq', '_blank')">
+                        <img src="group_buying/1.png" class="carousel-slide img-1" draggable="false">
+                        <img src="group_buying/2.png" class="carousel-slide img-2" draggable="false">
+                    </div>
+
+                    <!-- Name Field -->
+                    <div class="gear-name-field">樂米脆</div>
+
+                    <!-- Time Field (Blinking) -->
+                    <div class="gear-time-field blinking-text">8/10~8/23</div>
+
+                    <!-- Shopee Cards -->
+                    <div class="card-container" onclick="window.open('https://s.shopee.tw/AKZPy8wusY', '_blank')" style="top: 57.0%; left: 11.4%;">
+                        <div class="card-inner">
+                            <div class="card-front"><img src="Shopee/1.jpg" draggable="false"></div>
+                            <div class="card-back">馬鈴薯麵</div>
+                        </div>
+                    </div>
+                    <div class="card-container" onclick="window.open('https://s.shopee.tw/1qarqYXLeb', '_blank')" style="top: 57.0%; left: 54.8%;">
+                        <div class="card-inner">
+                            <div class="card-front"><img src="Shopee/2.jpg" draggable="false"></div>
+                            <div class="card-back">金鳥-防蚊掛片</div>
+                        </div>
+                    </div>
+                    <div class="card-container" onclick="window.open('https://s.shopee.tw/AKZPy8wusY', '_blank')" style="top: 78.5%; left: 11.4%;">
+                        <div class="card-inner">
+                            <div class="card-front"><img src="Shopee/3.jpg" draggable="false"></div>
+                            <div class="card-back">馬鈴薯麵</div>
+                        </div>
+                    </div>
+                    <div class="card-container" onclick="window.open('https://s.shopee.tw/1qarqYXLeb', '_blank')" style="top: 78.5%; left: 54.8%;">
+                        <div class="card-inner">
+                            <div class="card-front"><img src="Shopee/4.jpg" draggable="false"></div>
+                            <div class="card-back">金鳥-防蚊掛片</div>
+                        </div>
+                    </div>
+                    <div class="gemini-star">✦</div>
+                </div>
+            `;
+            openModal('裝備模組', bodyHtml, '#ff0055');
         }
 
         function openContactModal() {
